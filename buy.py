@@ -2,26 +2,37 @@
 import time
 import sys
 import requests
+import ConfigParser
 from bs4 import BeautifulSoup
 from splinter import Browser
 
-product_name = "Crew Socks"
-product_color = "White"
-selectOption = "1"
 mainUrl = "http://www.supremenewyork.com/shop/all/accessories"
 baseUrl = "http://supremenewyork.com"
 checkoutUrl = "https://www.supremenewyork.com/checkout"
-namefield = "Colin Cowie"
-emailfield = "colincowie@example.com"
-phonefield = "3015550876"
-addressfield = "1234 Normal st."
-zipfield = "54321"
-statefield = "IN"
-cctypefield = "visa"  # "master" "visa" "american_express"
-ccnumfield = "4475123468556632"  # Randomly Generated Data (aka, this isn't mine)
-ccmonthfield = "10"  # Randomly Generated Data (aka, this isn't mine)
-ccyearfield = "2022"  # Randomly Generated Data (aka, this isn't mine)
-cccvcfield = "123"  # Randomly Generated Data (aka, this isn't mine)
+# Randomly Generated Data (aka, this isn't mine)
+
+
+Config = ConfigParser.ConfigParser()
+Config.read('config.ini')
+#Info
+namefield = Config.get('Info','Name')
+emailfield = Config.get('Info','Email')
+phonefield = Config.get('Info','Phone')
+addressfield = Config.get('Info','Address')
+zipfield = Config.get('Info','Zipfield')
+statefield = Config.get('Info','statefield')
+#CreditCard
+cctypefield = Config.get('CreditCard','cctype')
+ccnumfield = Config.get('CreditCard','ccnum')
+ccmonthfield = Config.get('CreditCard','ccmonth')
+ccyearfield = Config.get('CreditCard','ccyear')
+cccvcfield = Config.get('CreditCard','cvc')
+#Product
+product_name = Config.get('Product','Keyword')
+product_color = Config.get('Product','Color')
+selectOption = Config.get('Product','SelectOption')
+Size = Config.get('Product','Size')
+print("Information loaded from config.inin....\nChecking for product")
 
 
 def main():
@@ -48,8 +59,6 @@ def parse(r):
                 color = a.text
         checkproduct(link,product,color)
 
-
-
 def checkproduct(Link,product_Name,product_Color):
     if(product_name in product_Name and product_color==product_Color):
         prdurl = baseUrl + Link
@@ -61,9 +70,8 @@ def checkproduct(Link,product_Name,product_Color):
         buyprd(prdurl)
     #print('Product:'+product_Name+', Color:'+product_Color+', Link:'+Link)
 
-
-
 def buyprd(u):
+    #executable_path = {'executable_path':'</Applications/Google Chrome.app>'}
     browser = Browser('firefox')
     url = u
     browser.visit(url)
@@ -99,8 +107,9 @@ def buyprd(u):
     sys.exit(0)
 
 
-i = 1
 
+
+i = 1
 while (True):
     print("On try number " + str(i))
     main()
