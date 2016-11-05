@@ -6,7 +6,7 @@ import ConfigParser
 from bs4 import BeautifulSoup
 from splinter import Browser
 
-mainUrl = "http://www.supremenewyork.com/shop/all/accessories"
+mainUrl = "http://www.supremenewyork.com/shop/all/"
 baseUrl = "http://supremenewyork.com"
 checkoutUrl = "https://www.supremenewyork.com/checkout"
 # Randomly Generated Data (aka, this isn't mine)
@@ -32,12 +32,13 @@ product_name = Config.get('Product','Keyword')
 product_color = Config.get('Product','Color')
 selectOption = Config.get('Product','SelectOption')
 Size = Config.get('Product','Size')
+mainUrl = mainUrl+Config.get('Product','Category')
+
 print("Information loaded from config.inin....\nChecking for product")
 
 
 def main():
     r = requests.get(mainUrl).text
-    #print(r)
     if product_name in r:
         print("Product Found")
         parse(r)
@@ -60,7 +61,7 @@ def parse(r):
         checkproduct(link,product,color)
 
 def checkproduct(Link,product_Name,product_Color):
-    if(product_name in product_Name and product_color==product_Color):
+    if(product_name in product_Name and product_color in product_Color):
         prdurl = baseUrl + Link
         print('\nTARGETED PRODUCT FOUND\n')
         print('Product: '+product_Name+'\n')

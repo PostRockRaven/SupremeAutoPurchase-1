@@ -21,5 +21,6 @@ I will make this automatic soon.
 Thanks to @Hezion and @kaaetech for their help. They both have good forks of this project.
 
 
-####11/3/16 Update
-Finally pushing a new build. Good luck to everyone going for todays drop!
+####11/5/16 Update
+This update fixed a bug with the category of the product not being in the config.ini file.
+<b>TODO</b>: Improve on product finding features, primarly the color and selectOption features
