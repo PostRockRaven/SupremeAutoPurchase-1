@@ -28,4 +28,4 @@ Thanks to @Hezion and @kaaetech for their help. They both have good forks of thi
 
 ####Donations
 I'm currently a broke college kid so anything helps - Thanks!
-[(https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/ColinCowie)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/ColinCowie)
