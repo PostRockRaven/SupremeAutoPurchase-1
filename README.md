@@ -23,5 +23,9 @@ Thanks to @Hezion and @kaaetech for their help. They both have good forks of thi
 
 ####11/5/16 Update
 - This update fixed a bug with the category of the product not being in the config.ini file.
-- Added support for country selection 
+- Added support for country selection
 <b>TODO</b>: Improve on product finding features, primarly the color and selectOption features
+
+####Donations
+I'm currently a broke college kid so anything helps - Thanks!
+(https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/ColinCowie)
