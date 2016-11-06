@@ -27,5 +27,5 @@ Thanks to @Hezion and @kaaetech for their help. They both have good forks of thi
 <b>TODO</b>: Improve on product finding features, primarly the color and selectOption features
 
 ####Donations
-I'm currently a broke college kid so anything helps - Thanks!
+I'm currently a broke college kid so anything helps - Thanks!<br>
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/ColinCowie)
