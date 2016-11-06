@@ -21,6 +21,7 @@ phonefield = Config.get('Info','Phone')
 addressfield = Config.get('Info','Address')
 zipfield = Config.get('Info','Zipfield')
 statefield = Config.get('Info','statefield')
+countryfield = Config.get('Info', 'Countryfield')
 #CreditCard
 cctypefield = Config.get('CreditCard','cctype')
 ccnumfield = Config.get('CreditCard','ccnum')
@@ -95,6 +96,7 @@ def buyprd(u):
     browser.fill("order[billing_address]", addressfield)
     browser.fill("order[billing_zip]", zipfield)
     browser.select("order[billing_state]", statefield)
+    browser.select("order[billing_country]", countryfield)
     print("Filling Out Credit Card Info")
 
     browser.select("credit_card[type]", cctypefield)
@@ -102,6 +104,7 @@ def buyprd(u):
     browser.select("credit_card[month]", ccmonthfield)
     browser.select("credit_card[year]", ccyearfield)
     browser.fill("credit_card[vval]", cccvcfield)
+
     browser.find_by_css('.terms').click()
     print("Submitting Info")
     browser.find_by_name('commit').click()
