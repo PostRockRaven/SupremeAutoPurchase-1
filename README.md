@@ -1,5 +1,7 @@
 # SupremeAutoPurchase v1.0
+## This branch is still in development. It is designed to run with PhantomJS instead of firefox
 #### SupremeAutoPurchase is a bot that will purchase new clothing drops on supremenewyork.com
+
 
 ###Requirements
 - python 2.7

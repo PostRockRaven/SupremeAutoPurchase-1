@@ -5,6 +5,11 @@ import requests
 import ConfigParser
 from bs4 import BeautifulSoup
 from splinter import Browser
+from selenium import webdriver
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.keys import Keys
+
+
 
 mainUrl = "http://www.supremenewyork.com/shop/all/"
 baseUrl = "http://supremenewyork.com"
@@ -37,7 +42,6 @@ mainUrl = mainUrl+Config.get('Product','Category')
 
 print("Information loaded from config.inin....\nChecking for product")
 
-
 def main():
     r = requests.get(mainUrl).text
     if product_name in r:
@@ -69,49 +73,63 @@ def checkproduct(Link,product_Name,product_Color):
         print('Color: '+product_Color+'\n')
         print('Link: '+prdurl+'\n')
         print('Moving to next phase of purchase...\n')
-        buyprd(prdurl)
+        #buyprd(prdurl)
+        phantombuy(prdurl)
     #print('Product:'+product_Name+', Color:'+product_Color+', Link:'+Link)
 
-def buyprd(u):
-    #executable_path = {'executable_path':'</Applications/Google Chrome.app>'}
-    browser = Browser('firefox')
-    url = u
-    browser.visit(url)
-    # 10|10.5
-    browser.find_option_by_text(selectOption).first.click()
-    browser.find_by_name('commit').click()
-    if browser.is_text_present('item'):
-        print("Added to Cart!")
+def phantombuy(u):
+    driver = webdriver.PhantomJS()
+    driver.get(u)
+    print('Phantom launched page: '+driver.current_url)
+
+    #Find selectOption
+    select = Select(driver.find_element_by_xpath("//select[./option[contains(@value,%s)]]"%selectOption))
+    #choose selectOption
+    select.select_by_value(selectOption)
+    #add to cart
+    driver.find_element_by_xpath("//*[@id='add-remove-buttons']/input").send_keys(Keys.ENTER)
+    items_count = driver.find_element_by_xpath("//*[@id='items-count']")
+
+    while items_count.text != '1 item':
+        print('Loading...')
+    if items_count.text == '1 item':
+        print(items_count.text+ ' was added to cart!')
+        driver.get(checkoutUrl)
+        print(driver.current_url)
     else:
-        print("Error, most likely out of stock.")
-        return
-    print("checking out")
-    browser.visit(checkoutUrl)
+        print('Error')
     print("Filling Out Billing Info")
-    browser.fill("order[billing_name]", namefield)
-    browser.fill("order[email]", emailfield)
-    browser.fill("order[tel]", phonefield)
+    driver.find_element_by_xpath('//*[@id="order_billing_name"]').send_keys(namefield)
+    driver.find_element_by_xpath('//*[@id="order_email"]').send_keys(emailfield)
+    driver.find_element_by_xpath('//*[@id="order_tel"]').send_keys(phonefield)
 
     print("Filling Out Address")
-    browser.fill("order[billing_address]", addressfield)
-    browser.fill("order[billing_zip]", zipfield)
-    browser.select("order[billing_state]", statefield)
-    browser.select("order[billing_country]", countryfield)
+    driver.find_element_by_xpath('//*[@id="bo"]').send_keys(addressfield)
+    driver.find_element_by_xpath('//*[@id="order_billing_zip"]').send_keys(zipfield)
+    #State Select
+    if(statefield!=''):
+        state_select = Select(driver.find_element_by_xpath('//*[@id="order_billing_state"]'))
+        select.select_by_value(statefield)
+    #Country Select
+    country_select = Select(driver.find_element_by_xpath('//*[@id="order_billing_country"]'))
+    country_select.select_by_value(countryfield)
     print("Filling Out Credit Card Info")
-
-    browser.select("credit_card[type]", cctypefield)
-    browser.fill("credit_card[cnb]", ccnumfield)
-    browser.select("credit_card[month]", ccmonthfield)
-    browser.select("credit_card[year]", ccyearfield)
-    browser.fill("credit_card[vval]", cccvcfield)
-
-    browser.find_by_css('.terms').click()
+    #Type Select
+    cctype_select = Select(driver.find_element_by_xpath('//*[@id="credit_card_type"]'))
+    cctype_select.select_by_value(cctypefield)
+    driver.find_element_by_xpath('//*[@id="cnb"]').send_keys(ccnumfield)
+    ##CC month and year select value
+    ccmonth_select = Select(driver.find_element_by_xpath('//*[@id="credit_card_month"]'))
+    ccmonth_select.select_by_value(ccmonthfield)
+    ccyear_select = Select(driver.find_element_by_xpath('//*[@id="credit_card_year"]'))
+    ccyear_select.select_by_value(ccyearfield)
+    driver.find_element_by_xpath('//*[@id="vval"]').send_keys(cccvcfield)
+    driver.find_element_by_xpath('//*[@id="cart-cc"]/fieldset/p[2]/label/div/ins').click()
     print("Submitting Info")
-    browser.find_by_name('commit').click()
+    driver.find_element_by_xpath('//*[@id="pay"]/input').send_keys(Keys.ENTER)
+    print("Done!")
+    driver.quit()
     sys.exit(0)
-
-
-
 
 i = 1
 while (True):
