@@ -1,5 +1,5 @@
 #Created by Colin Cowie
-import time
+import timeit
 import sys
 import requests
 import ConfigParser
@@ -8,6 +8,7 @@ from splinter import Browser
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
+start = timeit.default_timer()
 
 
 
@@ -25,7 +26,6 @@ emailfield = Config.get('Info','Email')
 phonefield = Config.get('Info','Phone')
 addressfield = Config.get('Info','Address')
 zipfield = Config.get('Info','Zipfield')
-statefield = Config.get('Info','statefield')
 countryfield = Config.get('Info', 'Countryfield')
 #CreditCard
 cctypefield = Config.get('CreditCard','cctype')
@@ -106,10 +106,6 @@ def phantombuy(u):
     print("Filling Out Address")
     driver.find_element_by_xpath('//*[@id="bo"]').send_keys(addressfield)
     driver.find_element_by_xpath('//*[@id="order_billing_zip"]').send_keys(zipfield)
-    #State Select
-    if(statefield!=''):
-        state_select = Select(driver.find_element_by_xpath('//*[@id="order_billing_state"]'))
-        select.select_by_value(statefield)
     #Country Select
     country_select = Select(driver.find_element_by_xpath('//*[@id="order_billing_country"]'))
     country_select.select_by_value(countryfield)
@@ -128,7 +124,9 @@ def phantombuy(u):
     print("Submitting Info")
     driver.find_element_by_xpath('//*[@id="pay"]/input').send_keys(Keys.ENTER)
     print("Done!")
-    driver.quit()
+    #driver.quit()
+    stop = timeit.default_timer()
+    print(str(stop-start) + ' Seconds')
     sys.exit(0)
 
 i = 1
