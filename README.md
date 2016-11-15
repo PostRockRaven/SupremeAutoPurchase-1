@@ -1,5 +1,6 @@
 # SupremeAutoPurchase v1.0
-## This branch is still in development. It is designed to run with PhantomJS
+## This project is still in development. It is designed to run with PhantomJS
+### There is another branch that runs with firefox, it is slightly slower.
 #### SupremeAutoPurchase is a bot that will purchase new clothing drops on supremenewyork.com
 
 
