@@ -1,4 +1,4 @@
-# SupremeAutoPurchase v1.0
+# SupremeAutoPurchase v2.1
 ## This project is still in development. It is designed to run with PhantomJS
 ### There is another branch that runs with firefox, it is slightly slower.
 #### SupremeAutoPurchase is a bot that will purchase new clothing drops on supremenewyork.com
@@ -25,10 +25,10 @@ Thanks to @Hezion and @kaaetech for their help. They both have good forks of thi
 
 
 ####11/15/16 Update
-- This update fixed some bugs with PhantomJS
-- Added a timer
-- Hit a new fastest time of 3.02 seconds
-<b>TODO</b>: Improve on product finding features, primarly the color and selectOption features
+- This update fixed a bug with The selectOption not functioning properly with sizes.
+- Cleaned some code
+- Hit a new fastest time of 1.6 seconds!
+<b>TODO</b>: Improve on product finding features
 
 ####Donations
 I'm currently a broke college kid so anything helps - Thanks!<br>
