@@ -25,6 +25,7 @@ phonefield = Config.get('Info','Phone')
 addressfield = Config.get('Info','Address')
 zipfield = Config.get('Info','Zipfield')
 countryfield = Config.get('Info', 'Countryfield')
+city = Config.get('Info','City')
 #CreditCard
 cctypefield = Config.get('CreditCard','cctype')
 ccnumfield = Config.get('CreditCard','ccnum')
@@ -76,7 +77,7 @@ def checkproduct(Link,product_Name,product_Color):
     #print('Product:'+product_Name+', Color:'+product_Color+', Link:'+Link)
 
 def phantombuy(u):
-
+    
     driver = webdriver.PhantomJS(port=8910, service_args=['--load-images=no'])
     driver.get(u)
     print('Phantom launched page: '+driver.current_url)
@@ -129,7 +130,8 @@ def phantombuy(u):
     if(countryfield=='USA'):
         driver.find_element_by_xpath('//*[@id="cart-cc"]/fieldset/p[2]/label/div/ins').click()
     else:
-        driver.find_element_by_xpath('//*[@id="cart-cc"]/fieldset/p/label/div/ins').click()   
+        driver.find_element_by_xpath('//*[@id="cart-cc"]/fieldset/p/label/div/ins').click()
+        driver.find_element_by_xpath('//*[@id="order_billing_city"]').send_keys(city)
     print("Submitting Info")
     driver.find_element_by_xpath('//*[@id="pay"]/input').send_keys(Keys.ENTER)
     #TODO CHECK FOR erors
