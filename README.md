@@ -24,7 +24,7 @@ I will improve on this soon.
 Thanks to @Hezion and @kaaetech for their help. They both have good forks of this project.
 
 
-####11/15/16 Update
+####11/16/16 Update
 - This update fixed a bug with The selectOption not functioning properly with sizes.
 - Cleaned some code
 - Hit a new fastest time of 1.6 seconds!
