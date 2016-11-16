@@ -1,5 +1,6 @@
 #Created by Colin Cowie
 import timeit
+import time
 import sys
 import requests
 import ConfigParser
@@ -10,13 +11,10 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 start = timeit.default_timer()
 
-
-
 mainUrl = "http://www.supremenewyork.com/shop/all/"
 baseUrl = "http://supremenewyork.com"
 checkoutUrl = "https://www.supremenewyork.com/checkout"
 # Randomly Generated Data (aka, this isn't mine)
-
 
 Config = ConfigParser.ConfigParser()
 Config.read('config.ini')
@@ -37,8 +35,8 @@ cccvcfield = Config.get('CreditCard','cvc')
 product_name = Config.get('Product','Keyword')
 product_color = Config.get('Product','Color')
 selectOption = Config.get('Product','SelectOption')
-Size = Config.get('Product','Size')
-mainUrl = mainUrl+Config.get('Product','Category')
+category = Config.get('Product','Category')
+mainUrl = mainUrl + category
 
 print("Information loaded from config.inin....\nChecking for product")
 
@@ -78,14 +76,21 @@ def checkproduct(Link,product_Name,product_Color):
     #print('Product:'+product_Name+', Color:'+product_Color+', Link:'+Link)
 
 def phantombuy(u):
-    driver = webdriver.PhantomJS()
+
+    driver = webdriver.PhantomJS(port=8910, service_args=['--load-images=no'])
     driver.get(u)
     print('Phantom launched page: '+driver.current_url)
+    #check what type selectOption is
+    try:
+        int(selectOption)
+        select = Select(driver.find_element_by_xpath("//select[./option[contains(@value,%s)]]"%selectOption))
+        print('selectOption is an int')
+    except ValueError:
+        select = Select(driver.find_element_by_xpath("//*[@id='size']"))
+        print('selectOption is an string')
 
-    #Find selectOption
-    select = Select(driver.find_element_by_xpath("//select[./option[contains(@value,%s)]]"%selectOption))
     #choose selectOption
-    select.select_by_value(selectOption)
+    select.select_by_visible_text(selectOption)
     #add to cart
     driver.find_element_by_xpath("//*[@id='add-remove-buttons']/input").send_keys(Keys.ENTER)
     items_count = driver.find_element_by_xpath("//*[@id='items-count']")
@@ -120,7 +125,8 @@ def phantombuy(u):
     ccyear_select = Select(driver.find_element_by_xpath('//*[@id="credit_card_year"]'))
     ccyear_select.select_by_value(ccyearfield)
     driver.find_element_by_xpath('//*[@id="vval"]').send_keys(cccvcfield)
-    driver.find_element_by_xpath('//*[@id="cart-cc"]/fieldset/p[2]/label/div/ins').click()
+    #TODO Fix
+    driver.find_element_by_xpath('//*[@id="cart-cc"]').click()
     print("Submitting Info")
     driver.find_element_by_xpath('//*[@id="pay"]/input').send_keys(Keys.ENTER)
     print("Done!")
