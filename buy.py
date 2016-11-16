@@ -9,7 +9,6 @@ from splinter import Browser
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
-start = timeit.default_timer()
 
 mainUrl = "http://www.supremenewyork.com/shop/all/"
 baseUrl = "http://supremenewyork.com"
@@ -38,7 +37,7 @@ product_color = Config.get('Product','Color')
 selectOption = Config.get('Product','SelectOption')
 category = Config.get('Product','Category')
 mainUrl = mainUrl + category
-
+start = timeit.default_timer()
 print("Information loaded from config.inin....\nChecking for product")
 
 def main():
@@ -77,7 +76,6 @@ def checkproduct(Link,product_Name,product_Color):
     #print('Product:'+product_Name+', Color:'+product_Color+', Link:'+Link)
 
 def phantombuy(u):
-    
     driver = webdriver.PhantomJS(port=8910, service_args=['--load-images=no'])
     driver.get(u)
     print('Phantom launched page: '+driver.current_url)
@@ -119,6 +117,7 @@ def phantombuy(u):
     #Type Select
     cctype_select = Select(driver.find_element_by_xpath('//*[@id="credit_card_type"]'))
     cctype_select.select_by_value(cctypefield)
+    driver.find_element_by_xpath('//*[@id="cnb"]').click()
     driver.find_element_by_xpath('//*[@id="cnb"]').send_keys(ccnumfield)
     ##CC month and year select value
     ccmonth_select = Select(driver.find_element_by_xpath('//*[@id="credit_card_month"]'))
@@ -137,7 +136,6 @@ def phantombuy(u):
     #TODO CHECK FOR erors
     print("Done!")
 
-    #print(driver.find_element_by_xpath('//*[@id="cart-address"]/fieldset/div[1]').text)
     #driver.quit()
     stop = timeit.default_timer()
     print(str(stop-start) + ' Seconds')
@@ -157,4 +155,4 @@ while (True):
     print("On try number " + str(i))
     main()
     i = i + 1
-    time.sleep(2)
+    time.sleep(3)

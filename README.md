@@ -27,6 +27,8 @@ Thanks to @Hezion and @kaaetech for their help. They both have good forks of thi
 ####11/16/16 Update
 - This update fixed a bug with The selectOption not functioning properly with sizes.
 - Cleaned some code
+- Added debugger for submit
+- Half Fixed bug with ccnum entering incorrectly 
 - Hit a new fastest time of 1.6 seconds!
 <b>TODO</b>: Improve on product finding features
 
