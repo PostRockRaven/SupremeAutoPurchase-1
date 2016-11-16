@@ -126,7 +126,10 @@ def phantombuy(u):
     ccyear_select.select_by_value(ccyearfield)
     driver.find_element_by_xpath('//*[@id="vval"]').send_keys(cccvcfield)
     #TODO Fix
-    driver.find_element_by_xpath('//*[@id="cart-cc"]/fieldset/p[2]/label/div/ins').click()
+    if(countryfield=='USA'):
+        driver.find_element_by_xpath('//*[@id="cart-cc"]/fieldset/p[2]/label/div/ins').click()
+    else:
+        driver.find_element_by_xpath('//*[@id="cart-cc"]/fieldset/p/label/div/ins').click()   
     print("Submitting Info")
     driver.find_element_by_xpath('//*[@id="pay"]/input').send_keys(Keys.ENTER)
     #TODO CHECK FOR erors
