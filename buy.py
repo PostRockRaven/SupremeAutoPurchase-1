@@ -126,13 +126,25 @@ def phantombuy(u):
     ccyear_select.select_by_value(ccyearfield)
     driver.find_element_by_xpath('//*[@id="vval"]').send_keys(cccvcfield)
     #TODO Fix
-    driver.find_element_by_xpath('//*[@id="cart-cc"]').click()
+    driver.find_element_by_xpath('//*[@id="cart-cc"]/fieldset/p[2]/label/div/ins').click()
     print("Submitting Info")
     driver.find_element_by_xpath('//*[@id="pay"]/input').send_keys(Keys.ENTER)
+    #TODO CHECK FOR erors
     print("Done!")
+
+    #print(driver.find_element_by_xpath('//*[@id="cart-address"]/fieldset/div[1]').text)
     #driver.quit()
     stop = timeit.default_timer()
     print(str(stop-start) + ' Seconds')
+    time.sleep(1)
+    try:
+        print('\n\n~~~ERROR~~~\n\n'+driver.find_element_by_xpath("//div[@id='cart-cc']//div[contains(@class,'errors')]").text+'\n')
+    except Exception as e:
+        print ('no payments errors found.')
+    try:
+        print('\n\n~~~ERROR~~~\n\n'+driver.find_element_by_xpath("//div[@id='cart-address']//div[contains(@class,'errors')]").text)
+    except Exception as e:
+        print ('no address errors found!')
     sys.exit(0)
 
 i = 1
